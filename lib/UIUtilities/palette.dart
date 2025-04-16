@@ -18,11 +18,18 @@ class Palette {
     },
   );
 
-  static const int _primaryBaseColor = 0xff22293b;
+  static const int _primaryBaseColor = 0xff000000;
 
   static const MaterialColor secondary = Colors.amber;
 
-  static Color onPrimaryText = Colors.white; 
+  static Color onPrimaryText = Colors.white;
+
+  static Color headLine = Colors.black;
+  static Color text = Colors.grey;
+
+  static Color infoBoxes = Colors.transparent;
+  
+  static Color backgroundColor = Colors.white;
 
 }
 
