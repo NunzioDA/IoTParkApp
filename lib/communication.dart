@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class WebServer {
@@ -41,19 +43,6 @@ class WebServer {
     return response;
   }
 
-  static Future<String> getStatus() async{
-    return getRequest(
-      "get_status",
-      {
-        "password" : password
-      }
-    ).then(
-      (response){
-        return response.body;
-      }
-    );
-  }
-
   static Future<String> addCommand(String command) async{
     return getRequest(
       "add_command",
@@ -70,10 +59,29 @@ class WebServer {
     );
   }
 
+  static Future<String> getStatus() async{
+    return getRequest(
+      "get_status",
+      {
+        "password" : password,
+      }
+    ).then(
+      (response){
+        return response.body;
+      }
+    );
+  }
   
 }
 
 class SmartPark{
+
+  static String temperature = "20°C";
+  static String humidity = "50%";
+  static String light = "DARK";
+
+  static List<bool> parkTaken = List.generate(6, (index) => false);
+
   static Future<String> lightsOn() async{
     return WebServer.addCommand("light;on");
   }
@@ -84,6 +92,24 @@ class SmartPark{
     return WebServer.addCommand("light;auto");
   }
   static Future<String> lightsColor(Color color) async{
-    return WebServer.addCommand("light;color;${color.r};${color.g};${color.b}");
+    int red = (color.r * 255).toInt();
+    int green = (color.g * 255).toInt();
+    int blue = (color.b * 255).toInt();
+    return WebServer.addCommand("light;color;$red;$green;$blue;");
+  }
+  static Future<bool> getStatus() async{
+    try{
+      String content = await WebServer.getStatus();
+
+      Map<String, dynamic> json = jsonDecode(content);
+      temperature = "${json["temperature"]}°C";
+      humidity = "${json["humidity"]}%";
+      light = json["light"].toString();
+      parkTaken = json["park"].map<bool>((e) => e == 1).toList();
+      return true;
+    }catch(e){
+      debugPrint("Error: $e");
+      return false;
+    }    
   }
 }
