@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iot_park_app/UIUtilities/palette.dart';
+import 'package:iot_park_app/communication.dart';
 
 class AmbientInfoBox extends StatelessWidget {
   const AmbientInfoBox({super.key});
@@ -29,7 +30,7 @@ class AmbientInfoBox extends StatelessWidget {
                 ),
                 const Gap(10),
                 Text(
-                  "40°",
+                  SmartPark.temperature,
                 ),
               ],
             ),
@@ -54,7 +55,7 @@ class AmbientInfoBox extends StatelessWidget {
                 ),
                 const Gap(10),
                 Text(
-                  "30%",
+                  SmartPark.humidity,
                 ),
               ],
             ),
@@ -79,7 +80,7 @@ class AmbientInfoBox extends StatelessWidget {
                 ),
                 const Gap(10),
                 Text(
-                  "DARK",
+                  SmartPark.light,
                 ),
               ],
             ),
