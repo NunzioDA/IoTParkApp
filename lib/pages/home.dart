@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iot_park_app/UIUtilities/palette.dart';
@@ -6,8 +8,32 @@ import 'package:iot_park_app/widgets/ambient_info_box.dart';
 import 'package:iot_park_app/widgets/lights_color_picker_button.dart';
 import 'package:iot_park_app/widgets/park_widget.dart';
 
-class Home extends StatelessWidget{
+class Home extends StatefulWidget{
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late Timer _timer;
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      SmartPark.getStatus().then((value) {
+        if(value) {
+          setState(() {});
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +108,20 @@ class Home extends StatelessWidget{
                             ParkWidget(
                               width: parkWidth,
                               type: ParkType.grey,
-                              occupied: true,
+                              occupied: SmartPark.parkTaken[0],
                               parkId: "A1"
                             ),
                             ParkWidget(
                               width: parkWidth,
                               type: ParkType.grey,
-                              occupied: true,
+                              occupied: SmartPark.parkTaken[1],
                               parkId: "A2"
                             ),
                             ParkWidget(
                               width: parkWidth,
                               type: ParkType.grey,
                               parkId: "A3",
-                              rightBorder: true,
+                              occupied: SmartPark.parkTaken[2],
                             ),
                           ],
                         ),
@@ -110,19 +136,20 @@ class Home extends StatelessWidget{
                             ParkWidget(
                               width: parkWidth,
                               type: ParkType.grey,
+                              occupied: SmartPark.parkTaken[3],
                               parkId: "B1"
                             ),
                             ParkWidget(
                               width: parkWidth,
                               type: ParkType.grey,
-                              occupied: true,
+                              occupied: SmartPark.parkTaken[4],
                               parkId: "B2"
                             ),
                             ParkWidget(
                               width: parkWidth,
                               type: ParkType.grey,
                               parkId: "B3",
-                              rightBorder: true,
+                              occupied: SmartPark.parkTaken[5],
                             ),
                           ],
                         ),
