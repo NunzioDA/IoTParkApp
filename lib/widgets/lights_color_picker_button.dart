@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:iot_park_app/communication.dart';
 import 'package:iot_park_app/pages/color_picker_page.dart';
 
 class LightsColorPickerButton extends StatelessWidget{
@@ -8,6 +9,18 @@ class LightsColorPickerButton extends StatelessWidget{
     super.key,
     required this.onColorSelected,
   });
+
+  Future<Color?> showColorPickerPage(BuildContext context) {
+    return Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => 
+          ColorPickerPage(
+            startColor: SmartPark.lightColor,
+          ),
+        opaque: false,
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,5 +47,5 @@ class LightsColorPickerButton extends StatelessWidget{
       ),
     );
   }
-
+  
 }
