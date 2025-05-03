@@ -79,6 +79,9 @@ class SmartPark{
   static String temperature = "20°C";
   static String humidity = "50%";
   static String light = "DARK";
+  static String airQuality = "UNHEALTY";
+  static int targetTemperature = 20;
+  static Color lightColor = Colors.white;
 
   static List<bool> parkTaken = List.generate(6, (index) => false);
 
@@ -95,16 +98,60 @@ class SmartPark{
     int red = (color.r * 255).toInt();
     int green = (color.g * 255).toInt();
     int blue = (color.b * 255).toInt();
-    return WebServer.addCommand("light;color;$red;$green;$blue;");
+    return WebServer.addCommand("light;color;$red;$green;$blue");
   }
+
+  static Future<String> setTemperature(int targetTemperature) async{
+    return WebServer.addCommand("air;temperature;$targetTemperature");
+  }
+  static Future<String> setAirConditioningHot() async{
+    return WebServer.addCommand("air;warm");
+  }
+  static Future<String> setAirConditioningCool() async{
+    return WebServer.addCommand("air;cool");
+  } 
+  static Future<String> airConditioningOff() async{
+    return WebServer.addCommand("air;off");
+  } 
+
+
   static Future<bool> getStatus() async{
     try{
       String content = await WebServer.getStatus();
 
       Map<String, dynamic> json = jsonDecode(content);
       temperature = "${json["temperature"]}°C";
+      targetTemperature = json["target_temperature"];
       humidity = "${json["humidity"]}%";
-      light = json["light"].toString();
+
+      int lightValue = int.parse(json["light"].toString());
+
+      if (lightValue < 500){
+        light = "DARK";
+      }
+      else if (lightValue < 900){
+        light = "GOOD";
+      }
+      else{
+        light = "BRIGHT";
+      }
+
+      List<int> colorsList = json["light_color"].map<int>((e) => int.parse(e.toString())).toList();
+      lightColor = Color.fromARGB(255, colorsList[0], colorsList[1], colorsList[2]);
+
+
+      int airValue = int.parse(json["air"].toString());
+
+      if (airValue < 30){
+        airQuality = "GOOD";
+      }
+      else if (airValue < 100){
+        airQuality = "MODERATE";
+      }
+      else{
+        airQuality = "UNHEALTY";
+      }
+
       parkTaken = json["park"].map<bool>((e) => e == 1).toList();
       return true;
     }catch(e){
