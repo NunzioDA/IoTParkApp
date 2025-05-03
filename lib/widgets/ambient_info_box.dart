@@ -9,8 +9,7 @@ class AmbientInfoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -28,7 +27,7 @@ class AmbientInfoBox extends StatelessWidget {
                     "assets/icons/temperature.png"
                   ),
                 ),
-                const Gap(10),
+                const Gap(5),
                 Text(
                   SmartPark.temperature,
                 ),
@@ -36,7 +35,6 @@ class AmbientInfoBox extends StatelessWidget {
             ),
           ),
         ),
-        const Gap(10),
         Container(
           decoration: BoxDecoration(
             color: Palette.infoBoxes,
@@ -53,7 +51,7 @@ class AmbientInfoBox extends StatelessWidget {
                     "assets/icons/drop.png"
                   ),
                 ),
-                const Gap(10),
+                const Gap(5),
                 Text(
                   SmartPark.humidity,
                 ),
@@ -61,7 +59,6 @@ class AmbientInfoBox extends StatelessWidget {
             ),
           ),
         ),
-        const Gap(10),
         Container(
           decoration: BoxDecoration(
             color: Palette.infoBoxes,
@@ -78,9 +75,33 @@ class AmbientInfoBox extends StatelessWidget {
                     "assets/icons/sun.png"
                   ),
                 ),
-                const Gap(10),
+                const Gap(5),
                 Text(
                   SmartPark.light,
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Palette.infoBoxes,
+            borderRadius: BorderRadius.circular(10)
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: Image.asset(
+                    "assets/icons/wind-sign.png"
+                  ),
+                ),
+                const Gap(5),
+                Text(
+                  SmartPark.airQuality,
                 ),
               ],
             ),
