@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       SmartPark.getStatus().then((value) {
         if(value) {
           setState(() {});
