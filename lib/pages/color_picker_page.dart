@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:gap/gap.dart';
+import 'package:iot_park_app/communication.dart';
 
 class ColorPickerPage extends StatefulWidget {
   final Color startColor;
@@ -15,7 +16,7 @@ class ColorPickerPage extends StatefulWidget {
 
 class _ColorPickerPageState extends State<ColorPickerPage> {
   late HSVColor color;
-
+  int updateIndex = 1;
   @override
   void initState() {
     super.initState();
@@ -34,7 +35,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(widget.startColor);
               },
               behavior: HitTestBehavior.opaque,
               child: Container(),
@@ -69,6 +70,13 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                                 (newColor)=> setState(() {
                                   newColor = newColor.withSaturation(1);
                                   color = newColor;
+                                  if(updateIndex % 40 == 0){
+                                    SmartPark.lightsColor(color.toColor());
+                                    updateIndex = 1;
+                                  }
+                                  else{
+                                    updateIndex ++;
+                                  }
                                 }),
                                 strokeWidth: 20,                    
                               ),
