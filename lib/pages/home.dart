@@ -14,7 +14,7 @@ class Home extends StatefulWidget{
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with WidgetsBindingObserver{
   // late Timer _timer;
   @override
   void initState() {
@@ -26,6 +26,11 @@ class _HomeState extends State<Home> {
     //     }
     //   });
     // });
+    initSmartPark();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void initSmartPark(){
     SmartPark.init(() {
       if(mounted) setState(() {});
     });
@@ -35,7 +40,17 @@ class _HomeState extends State<Home> {
   void dispose() {
     // _timer.cancel();
     SmartPark.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      SmartPark.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      initSmartPark();
+    }
   }
 
   @override
