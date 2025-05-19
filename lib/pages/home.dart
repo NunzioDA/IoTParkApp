@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iot_park_app/UIUtilities/palette.dart';
@@ -17,22 +15,26 @@ class Home extends StatefulWidget{
 }
 
 class _HomeState extends State<Home> {
-  late Timer _timer;
+  // late Timer _timer;
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      SmartPark.getStatus().then((value) {
-        if(value) {
-          setState(() {});
-        }
-      });
+    // _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
+    //   SmartPark.getStatus().then((value) {
+    //     if(value) {
+    //       setState(() {});
+    //     }
+    //   });
+    // });
+    SmartPark.init((state) {
+      if(mounted) setState(() {});
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    // _timer.cancel();
+    SmartPark.dispose();
     super.dispose();
   }
 
