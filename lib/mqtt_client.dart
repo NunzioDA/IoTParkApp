@@ -24,14 +24,19 @@ class MQTTClientWrapper {
   static MqttCurrentConnectionState connectionState = MqttCurrentConnectionState.idle;
   static MqttSubscriptionState subscriptionState = MqttSubscriptionState.idle;
 
+  static Map<String, Function> topicCallBack = {};
+
   // using async tasks, so the connection won't hinder the code flow
   static void init(onStatus, onAiPark) async {
     _setupMqttClient();
     await _connectClient();
     String statusTopic = const String.fromEnvironment("MQTT_STATUS_TOPIC");
     String aiParkTopic = const String.fromEnvironment("MQTT_AI_PARK_TOPIC");
+
+
     _subscribeToTopic(statusTopic, onStatus);
     _subscribeToTopic(aiParkTopic, onAiPark);
+    _startListening();
   }
 
   static void dispose(){
@@ -79,11 +84,13 @@ class MQTTClientWrapper {
     client.onSubscribed = _onSubscribed;
   }
 
-  static void _subscribeToTopic(String topicName, void Function(String staus) onStatus) {
+  static void _subscribeToTopic(String topicName, void Function(String value) onTopic) {
+    topicCallBack[topicName] = onTopic;
     debugPrint('Subscribing to the $topicName topic');
-    client.subscribe(topicName, MqttQos.atMostOnce);
+    client.subscribe(topicName, MqttQos.atLeastOnce);
+  }
 
-    // debugPrint the message when it is received
+  static void _startListening(){
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttReceivedMessage recMess = c[0];
       final MqttPublishMessage message = recMess.payload as MqttPublishMessage;
@@ -91,7 +98,7 @@ class MQTTClientWrapper {
 
       debugPrint('YOU GOT A NEW MESSAGE:');
       debugPrint(strMessage);
-      onStatus(strMessage);
+      topicCallBack[recMess.topic]!(strMessage);
     });
   }
 
