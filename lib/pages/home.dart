@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
     //     }
     //   });
     // });
-    SmartPark.init((state) {
+    SmartPark.init(() {
       if(mounted) setState(() {});
     });
   }

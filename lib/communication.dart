@@ -91,11 +91,15 @@ class SmartPark{
   static List<bool> parkTaken = List.generate(6, (index) => false);
 
   // This method is used to initialize the communication
-  static void init(void Function(String state) onState){
+  static void init(void Function() onStateChanged){
     MQTTClientWrapper.init(
       (state){
         bool done = manageState(state);
-        if(done) onState(state);
+        if(done) onStateChanged();
+      },
+      (aiPark){
+        bool done = manageAiPark(aiPark);
+        if(done) onStateChanged();
       }
     );
   }
@@ -183,6 +187,20 @@ class SmartPark{
       debugPrint("Error: $e");
       return false;
     }  
+  }
+
+  static bool manageAiPark(String aiPark){
+    try{
+      List<dynamic> json = jsonDecode(aiPark);
+      for (var i = 0; i < json.length; i++){
+        parkTaken[i] = json[i] == 1;
+      }
+      return true;
+    }
+    catch(e){
+      debugPrint("Error: $e");
+      return false;
+    } 
   }
 
 

@@ -25,11 +25,13 @@ class MQTTClientWrapper {
   static MqttSubscriptionState subscriptionState = MqttSubscriptionState.idle;
 
   // using async tasks, so the connection won't hinder the code flow
-  static void init(onStatus) async {
+  static void init(onStatus, onAiPark) async {
     _setupMqttClient();
     await _connectClient();
     String statusTopic = const String.fromEnvironment("MQTT_STATUS_TOPIC");
+    String aiParkTopic = const String.fromEnvironment("MQTT_AI_PARK_TOPIC");
     _subscribeToTopic(statusTopic, onStatus);
+    _subscribeToTopic(aiParkTopic, onAiPark);
   }
 
   static void dispose(){
