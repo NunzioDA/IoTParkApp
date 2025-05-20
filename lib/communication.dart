@@ -167,7 +167,7 @@ class SmartPark{
 
       int airValue = double.parse(json["air"].toString()).toInt();
       // parsing air quality values
-      if (airValue < 30){
+      if (airValue < 60){
         airQuality = "GOOD";
       }
       else if (airValue < 100){
