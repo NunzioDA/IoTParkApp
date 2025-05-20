@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iot_park_app/communication.dart';
+import 'package:iot_park_app/smartpark.dart';
 import 'package:iot_park_app/pages/temperature_set_page.dart';
 
 class SetTemperatureButton extends StatelessWidget{

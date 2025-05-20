@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:gap/gap.dart';
-import 'package:iot_park_app/communication.dart';
+import 'package:iot_park_app/smartpark.dart';
 
 class ColorPickerPage extends StatefulWidget {
   final Color startColor;

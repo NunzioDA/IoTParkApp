@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:iot_park_app/communication.dart';
+import 'package:iot_park_app/smartpark.dart';
 import 'package:iot_park_app/pages/color_picker_page.dart';
 
 class LightsColorPickerButton extends StatelessWidget{

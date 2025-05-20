@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iot_park_app/UIUtilities/palette.dart';
-import 'package:iot_park_app/communication.dart';
+import 'package:iot_park_app/smartpark.dart';
 import 'package:iot_park_app/widgets/ambient_info_box.dart';
 import 'package:iot_park_app/widgets/lights_color_picker_button.dart';
 import 'package:iot_park_app/widgets/park_widget.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iot_park_app/UIUtilities/palette.dart';
-import 'package:iot_park_app/communication.dart';
+import 'package:iot_park_app/smartpark.dart';
 
 class AmbientInfoBox extends StatelessWidget {
   const AmbientInfoBox({super.key});
